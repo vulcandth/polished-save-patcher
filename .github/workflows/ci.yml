@@ -101,10 +101,51 @@ jobs:
         run: |
           rm -rf dist
           mkdir -p dist
-          # Serve the app at the Pages root, and also keep /web/ working.
-          cp web/index.html dist/index.html
-          cp web/styles.css dist/styles.css
-          cp -R web dist/web
+          # Use the upstream game-agnostic web UI from gb-save-web.
+          cp -R ../gb-save-patcher/crates/gb-save-web/www/* dist/
+
+          # Override the site configuration for this game.
+          cat > dist/config.js <<'EOF'
+          export const SITE_CONFIG = {
+            game: {
+              title: "Polished Crystal Save Patcher",
+              subtitle: "Patches your save in your browser (no uploads).",
+              githubUrl: "https://github.com/vulcandth/polished-save-patcher",
+              githubLabel: "View source",
+            },
+
+            wasm: {
+              modulePath: "./pkg/gb_save_polished.js",
+            },
+
+            ui: {
+              showAdvancedMode: true,
+            },
+
+            instructions: [
+              "Back up your original save file somewhere safe.",
+              "Choose your save file below.",
+              "Pick a target version, then click Patch.",
+              "Download the patched save and load it in your emulator/flashcart.",
+            ],
+
+            targetVersions: [
+              { value: 8, label: "v8" },
+              { value: 9, label: "v9" },
+              { value: 10, label: "Latest (v10)" },
+            ],
+
+            acceptedExtensions: [".sav", ".srm"],
+          };
+          EOF
+
+          # Keep /web/ working (optional alias).
+          mkdir -p dist/web
+          cp dist/index.html dist/web/index.html
+          cp dist/main.js dist/web/main.js
+          cp dist/styles.css dist/web/styles.css
+          cp dist/config.js dist/web/config.js
+
           cp -R pkg dist/pkg
           touch dist/.nojekyll
 

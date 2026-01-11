@@ -43,7 +43,7 @@ cargo run --bin gb-save-patcher -- --help
 
 ### Local web (WASM)
 
-There is a minimal no-framework browser demo in `web/`.
+The browser UI is provided by the shared `gb-save-web` crate (from the sibling `gb-save-patcher` repo). This repo supplies the game-specific WASM module.
 
 1. Install wasm tooling:
 
@@ -64,9 +64,13 @@ wasm-pack build --release --target web
 python -m http.server 8000
 ```
 
-Then visit `http://localhost:8000/web/`.
+Then run the local web dev helper (builds WASM, stages the upstream UI into `dist/`, and serves it):
 
-Shortcut: `./tools/web_dev.ps1` (builds WASM + serves on `:8000`).
+```powershell
+./tools/web_dev.ps1
+```
+
+Visit `http://localhost:8000/`.
 
 ### GitHub Pages
 

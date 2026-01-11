@@ -40,7 +40,9 @@ It depends on shared, game-agnostic crates from the sibling `gb-save-patcher` re
 - `src/`: patcher implementation
 - `resources/`: embedded symbols
 - `tests/`: golden parity fixtures + tests
-- `web/`: tiny local demo page (loads the WASM package produced by `wasm-pack`)
+- `dist/`: local build output for the browser demo (generated; not committed)
+
+The browser UI itself lives upstream in `gb-save-web` (sibling repo); this repo only provides the game-specific WASM module and a small site config.
 
 ## Dependencies
 
