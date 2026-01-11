@@ -152,22 +152,22 @@ jobs:
           html = p.read_text(encoding='utf-8')
           old = '<script type="module" src="./main.js"></script>'
           if old in html:
-            html = html.replace(
-              old,
-              """<script type=\"module\">
-  const setText = (id, text) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = text;
-  };
-
-  import('./main.js').catch((e) => {
-    setText('wasmState', 'failed');
-    const msg = String((e && (e.message || e)) || e);
-    setText('status', 'Failed to load UI/wasm: ' + msg);
-    console.error(e);
-  });
-</script>""",
-            )
+            replacement = "\n".join([
+              '<script type="module">',
+              '  const setText = (id, text) => {',
+              '    const el = document.getElementById(id);',
+              '    if (el) el.textContent = text;',
+              '  };',
+              '',
+              "  import('./main.js').catch((e) => {",
+              "    setText('wasmState', 'failed');",
+              "    const msg = String((e && (e.message || e)) || e);",
+              "    setText('status', 'Failed to load UI/wasm: ' + msg);",
+              '    console.error(e);',
+              '  });',
+              '</script>',
+            ])
+            html = html.replace(old, replacement)
             p.write_text(html, encoding='utf-8')
           else:
             raise SystemExit('Expected module script tag not found in dist/index.html')
