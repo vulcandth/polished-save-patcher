@@ -142,6 +142,37 @@ jobs:
           # Replace the upstream placeholder pkg/ with this repo's wasm-pack output.
           rm -rf dist/pkg
           cp -R pkg dist/pkg
+
+          # If the module graph fails to load (e.g., missing config.js/pkg),
+          # show a visible error instead of leaving the default "loading…".
+          python3 - <<'PY'
+          from pathlib import Path
+
+          p = Path('dist/index.html')
+          html = p.read_text(encoding='utf-8')
+          old = '<script type="module" src="./main.js"></script>'
+          if old in html:
+            html = html.replace(
+              old,
+              """<script type=\"module\">\n"
+              "  const setText = (id, text) => {\n"
+              "    const el = document.getElementById(id);\n"
+              "    if (el) el.textContent = text;\n"
+              "  };\n"
+              "  try {\n"
+              "    await import('./main.js');\n"
+              "  } catch (e) {\n"
+              "    setText('wasmState', 'failed');\n"
+              "    const msg = String(e && (e.message || e) || e);\n"
+              "    setText('status', `Failed to load UI/wasm: ${msg}`);\n"
+              "    console.error(e);\n"
+              "  }\n"
+              "</script>""",
+            )
+            p.write_text(html, encoding='utf-8')
+          else:
+            raise SystemExit('Expected module script tag not found in dist/index.html')
+          PY
           touch dist/.nojekyll
 
       - name: Upload Pages artifact

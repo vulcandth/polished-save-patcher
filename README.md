@@ -70,6 +70,12 @@ Then run the local web dev helper (builds WASM, stages the upstream UI into `dis
 ./tools/web_dev.ps1
 ```
 
+If PowerShell script execution is disabled, run:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File ./tools/web_dev.ps1
+```
+
 Visit `http://localhost:8000/`.
 
 ### GitHub Pages
