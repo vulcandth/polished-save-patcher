@@ -33,17 +33,6 @@ New-Item -ItemType Directory -Path $Dist | Out-Null
 
 Copy-Item -Recurse -Force (Join-Path $UpstreamWww "*") $Dist
 
-# Work around an upstream gb-save-web UI bug: main.js declares `applyTheme` twice.
-$MainJs = Join-Path $Dist "main.js"
-if (Test-Path $MainJs) {
-  $content = Get-Content $MainJs -Raw
-  if ($content -match 'function\s+applyTheme\(patcher\)') {
-    $content = $content -replace 'function\s+applyTheme\(patcher\)', 'function applyPatcherTheme(patcher)'
-    $content = $content -replace 'applyTheme\(patcher\)', 'applyPatcherTheme(patcher)'
-    Set-Content -Encoding UTF8 $MainJs $content
-  }
-}
-
 @'
 export const SITE_CONFIG = {
   game: {
