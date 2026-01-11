@@ -148,6 +148,17 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
 
+          # Work around an upstream gb-save-web UI bug: main.js declares
+          # `applyTheme` twice (once for SITE_CONFIG.theme and once for the
+          # loaded patcher theme), which is a SyntaxError in ES modules.
+          main_path = Path('dist/main.js')
+          if main_path.exists():
+            main = main_path.read_text(encoding='utf-8')
+            if 'function applyTheme(patcher)' in main:
+              main = main.replace('function applyTheme(patcher)', 'function applyPatcherTheme(patcher)')
+              main = main.replace('applyTheme(patcher)', 'applyPatcherTheme(patcher)')
+              main_path.write_text(main, encoding='utf-8')
+
           p = Path('dist/index.html')
           html = p.read_text(encoding='utf-8')
           old = '<script type="module" src="./main.js"></script>'
