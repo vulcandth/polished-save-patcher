@@ -139,13 +139,8 @@ jobs:
           };
           EOF
 
-          # Keep /web/ working (optional alias).
-          mkdir -p dist/web
-          cp dist/index.html dist/web/index.html
-          cp dist/main.js dist/web/main.js
-          cp dist/styles.css dist/web/styles.css
-          cp dist/config.js dist/web/config.js
-
+          # Replace the upstream placeholder pkg/ with this repo's wasm-pack output.
+          rm -rf dist/pkg
           cp -R pkg dist/pkg
           touch dist/.nojekyll
 

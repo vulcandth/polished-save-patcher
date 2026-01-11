@@ -76,7 +76,7 @@ Visit `http://localhost:8000/`.
 
 This repo includes a GitHub Actions workflow that builds the WASM package and publishes the demo to GitHub Pages on pushes to `main`.
 
-The deployed site serves the demo at the Pages root (`/`). (`/web/` is also published as an alias.)
+The deployed site serves the demo at the Pages root (`/`).
 
 If Pages isn’t already enabled for the repo, set:
 

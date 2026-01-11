@@ -58,8 +58,11 @@ export const SITE_CONFIG = {
 };
 '@ | Set-Content -Encoding UTF8 (Join-Path $Dist "config.js")
 
-# Copy wasm-pack output
-Copy-Item -Recurse -Force (Join-Path $PSScriptRoot "..\pkg") (Join-Path $Dist "pkg")
+# Replace upstream placeholder pkg/ with wasm-pack output
+$DistPkg = Join-Path $Dist "pkg"
+if (Test-Path $DistPkg) { Remove-Item -Recurse -Force $DistPkg }
+New-Item -ItemType Directory -Path $DistPkg | Out-Null
+Copy-Item -Recurse -Force (Join-Path $PSScriptRoot "..\pkg\*") $DistPkg
 
 Write-Host "\nServing dist/ on http://localhost:$Port/" -ForegroundColor Green
 
