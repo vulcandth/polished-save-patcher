@@ -154,20 +154,19 @@ jobs:
           if old in html:
             html = html.replace(
               old,
-              """<script type=\"module\">\n"
-              "  const setText = (id, text) => {\n"
-              "    const el = document.getElementById(id);\n"
-              "    if (el) el.textContent = text;\n"
-              "  };\n"
-              "  try {\n"
-              "    await import('./main.js');\n"
-              "  } catch (e) {\n"
-              "    setText('wasmState', 'failed');\n"
-              "    const msg = String(e && (e.message || e) || e);\n"
-              "    setText('status', `Failed to load UI/wasm: ${msg}`);\n"
-              "    console.error(e);\n"
-              "  }\n"
-              "</script>""",
+              """<script type=\"module\">
+  const setText = (id, text) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  };
+
+  import('./main.js').catch((e) => {
+    setText('wasmState', 'failed');
+    const msg = String((e && (e.message || e)) || e);
+    setText('status', 'Failed to load UI/wasm: ' + msg);
+    console.error(e);
+  });
+</script>""",
             )
             p.write_text(html, encoding='utf-8')
           else:
