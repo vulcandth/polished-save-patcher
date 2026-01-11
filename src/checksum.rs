@@ -1,4 +1,6 @@
-use gb_save_core::{calculate_additive_u16_checksum, Address, AddressRange, SaveBinary, SaveResult};
+use gb_save_core::{
+    calculate_additive_u16_checksum, Address, AddressRange, SaveBinary, SaveResult,
+};
 
 /// Calculates the additive checksum of a save byte range.
 ///
