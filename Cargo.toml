@@ -1,0 +1,25 @@
+[package]
+name = "gb-save-polished"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/vulcandth/polished-save-patcher"
+authors = ["vulcandth <vulcandth@gmail.com>"]
+
+description = "Polished Crystal-specific save helpers and (eventually) patch implementations."
+
+[lib]
+crate-type = ["rlib", "cdylib"]
+
+[dependencies]
+anyhow = "1"
+
+# NOTE: gb-save-core/cli/web are consumed from the sibling repo during local development.
+# For publishing, switch these to git or crates.io dependencies.
+gb-save-core = { path = "../gb-save-patcher/crates/gb-save-core" }
+gb-save-cli = { path = "../gb-save-patcher/crates/gb-save-cli" }
+gb-save-web = { path = "../gb-save-patcher/crates/gb-save-web" }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "0.2"
+js-sys = "0.3"

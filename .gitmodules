@@ -1,0 +1,3 @@
+[submodule "third_party/polished-save-patcher"]
+	path = third_party/polished-save-patcher
+	url = https://github.com/fellowship-of-the-roms/polished-save-patcher.git

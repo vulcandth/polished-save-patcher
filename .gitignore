@@ -1,0 +1,11 @@
+/target/
+**/target/
+
+# wasm bindgen / web build artifacts
+/dist/
+/pkg/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
