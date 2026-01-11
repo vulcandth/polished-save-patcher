@@ -101,6 +101,9 @@ jobs:
         run: |
           rm -rf dist
           mkdir -p dist
+          # Serve the app at the Pages root, and also keep /web/ working.
+          cp web/index.html dist/index.html
+          cp web/styles.css dist/styles.css
           cp -R web dist/web
           cp -R pkg dist/pkg
           touch dist/.nojekyll

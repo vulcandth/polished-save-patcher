@@ -101,7 +101,14 @@
       }
 
       // wasm-pack outputs into /pkg at the repo root.
-      const wasm = await import('../pkg/gb_save_polished.js');
+      // When this page is served from the site root, use ./pkg/...
+      // When it's served from /web/, use ../pkg/...
+      let wasm;
+      try {
+        wasm = await import('./pkg/gb_save_polished.js');
+      } catch {
+        wasm = await import('../pkg/gb_save_polished.js');
+      }
       await wasm.default();
 
       const { get_save_version, patch_save_with_log } = wasm;

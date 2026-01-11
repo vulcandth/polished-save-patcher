@@ -70,7 +70,9 @@ Shortcut: `./tools/web_dev.ps1` (builds WASM + serves on `:8000`).
 
 ### GitHub Pages
 
-This repo includes a GitHub Actions workflow that builds the WASM package and publishes the `web/` demo to GitHub Pages on pushes to `main`.
+This repo includes a GitHub Actions workflow that builds the WASM package and publishes the demo to GitHub Pages on pushes to `main`.
+
+The deployed site serves the demo at the Pages root (`/`). (`/web/` is also published as an alias.)
 
 If Pages isn’t already enabled for the repo, set:
 
